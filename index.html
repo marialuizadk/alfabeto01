@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joguinhos do Alfabeto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        .alfabeto {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .letra {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            color: #007BFF;
+            font-size: 24px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .letra:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        #entrada {
+            margin-top: 20px;
+            padding: 5px;
+            font-size: 18px;
+        }
+        .jogo {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Joguinhos do Alfabeto</h1>
+
+    <div class="jogo">
+        <h2>1. Jogo da Letra Correta</h2>
+        <p id="palavraCorreta">Complete a palavra: _ A _</p>
+        <div>
+            <button onclick="verificarLetra('C')">C</button>
+            <button onclick="verificarLetra('D')">D</button>
+            <button onclick="verificarLetra('R')">R</button>
+            <button onclick="verificarLetra('T')">T</button>
+        </div>
+        <div id="resultadoLetra"></div>
+    </div>
+
+    <div class="jogo">
+        <h2>2. Formar Palavras</h2>
+        <div class="alfabeto">
+            <span class="letra" onclick="adicionarLetra('A')">A</span>
+            <span class="letra" onclick="adicionarLetra('B')">B</span>
+            <span class="letra" onclick="adicionarLetra('C')">C</span>
+            <span class="letra" onclick="adicionarLetra('D')">D</span>
+            <span class="letra" onclick="adicionarLetra('E')">E</span>
+            <span class="letra" onclick="adicionarLetra('F')">F</span>
+            <span class="letra" onclick="adicionarLetra('G')">G</span>
+            <span class="letra" onclick="adicionarLetra('H')">H</span>
+            <span class="letra" onclick="adicionarLetra('I')">I</span>
+            <span class="letra" onclick="adicionarLetra('J')">J</span>
+            <span class="letra" onclick="adicionarLetra('K')">K</span>
+            <span class="letra" onclick="adicionarLetra('L')">L</span>
+            <span class="letra" onclick="adicionarLetra('M')">M</span>
+            <span class="letra" onclick="adicionarLetra('N')">N</span>
+            <span class="letra" onclick="adicionarLetra('O')">O</span>
+            <span class="letra" onclick="adicionarLetra('P')">P</span>
+            <span class="letra" onclick="adicionarLetra('Q')">Q</span>
+            <span class="letra" onclick="adicionarLetra('R')">R</span>
+            <span class="letra" onclick="adicionarLetra('S')">S</span>
+            <span class="letra" onclick="adicionarLetra('T')">T</span>
+            <span class="letra" onclick="adicionarLetra('U')">U</span>
+            <span class="letra" onclick="adicionarLetra('V')">V</span>
+            <span class="letra" onclick="adicionarLetra('W')">W</span>
+            <span class="letra" onclick="adicionarLetra('X')">X</span>
+            <span class="letra" onclick="adicionarLetra('Y')">Y</span>
+            <span class="letra" onclick="adicionarLetra('Z')">Z</span>
+        </div>
+        <div>
+            Palavra formada: <span id="palavra"></span>
+        </div>
+        <input type="text" id="entrada" placeholder="Digite sua palavra" />
+        <button onclick="verificarPalavra()">Verificar Palavra</button>
+        <div id="resultadoPalavra"></div>
+    </div>
+
+    <script>
+        let palavraCorreta = "CAR"; // Palavra atual
+        let palavrasPossiveis = ["CAR", "GATO", "DADO"]; // Palavras possíveis
+
+        // Jogo da letra correta
+        function verificarLetra(letra) {
+            const resultadoDiv = document.getElementById('resultadoLetra');
+            if (letra === palavraCorreta[0]) { // Verifica se a letra está correta
+                resultadoDiv.textContent = "Correto! A palavra é '" + palavraCorreta + "'.";
+                resultadoDiv.style.color = "green";
+                mudarPalavra();
+                mudarFundo(true);
+            } else {
+                resultadoDiv.textContent = "Incorreto! Tente novamente.";
+                resultadoDiv.style.color = "red";
+            }
+        }
+
+        // Troca a palavra quando correta
+        function mudarPalavra() {
+            palavrasPossiveis = palavrasPossiveis.filter(p => p !== palavraCorreta); // Remove a palavra atual
+            if (palavrasPossiveis.length === 0) {
+                palavraCorreta = "FIM"; // Se não houver mais palavras, termina o jogo
+                document.getElementById('palavraCorreta').textContent = "Fim do jogo!";
+                return;
+            }
+            palavraCorreta = palavrasPossiveis[Math.floor(Math.random() * palavrasPossiveis.length)]; // Escolhe uma nova palavra
+            document.getElementById('palavraCorreta').textContent = "Complete a palavra: _ A _"; // Atualiza a mensagem
+        }
+
+        // Jogo de formar palavras
+        let palavraAtual = '';
+
+        function adicionarLetra(letra) {
+            palavraAtual += letra;
+            document.getElementById('palavra').textContent = palavraAtual;
+        }
+
+        function verificarPalavra() {
+            const resultadoDiv = document.getElementById('resultadoPalavra');
+            const entrada = document.getElementById('entrada').value.trim().toUpperCase();
+
+            const palavrasValidas = ['CAR', 'GATO', 'DADO']; // Palavras válidas para o segundo jogo
+
+            if (palavrasValidas.includes(entrada)) {
+                resultadoDiv.textContent = "Correto!";
+                resultadoDiv.style.color = "green";
+                mudarFundo(true);
+                palavraAtual = ''; // Limpa a palavra atual
+                document.getElementById('palavra').textContent = ''; // Limpa a exibição da palavra
+                document.getElementById('entrada').value = ''; // Limpa o input
+                mudarPalavra(); // Muda a palavra correta para a próxima
+            } else {
+                resultadoDiv.textContent = "Incorreto!";
+                resultadoDiv.style.color = "red";
+            }
+        }
+
+        function mudarFundo(correto) {
+            const originalColor = document.body.style.backgroundColor;
+            const newColor = correto ? getRandomLightColor() : originalColor;
+
+            document.body.style.backgroundColor = newColor;
+
+            if (correto) {
+                setTimeout(() => {
+                    document.body.style.backgroundColor = originalColor;
+                }, 1000);
+            }
+        }
+
+        function getRandomLightColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            const brightness = 0.7;
+
+            return `rgba(${Math.floor(r * brightness)}, ${Math.floor(g * brightness)}, ${Math.floor(b * brightness)}, 1)`;
+        }
+    </script>
+</body>
+</html>
